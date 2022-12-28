@@ -1,6 +1,6 @@
 ---
 title: "statistical_learning"
-output: github_document
+otuput: github_document
 ---
 
 ```{r setup, include=FALSE}
