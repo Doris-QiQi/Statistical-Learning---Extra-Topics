@@ -160,6 +160,8 @@ broom::tidy(lasso_fit) %>%
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
+### CV Curve
+
 ``` r
 broom::tidy(lasso_cv) %>% 
   ggplot(aes(x = log(lambda, 10), y = estimate)) + 
@@ -167,6 +169,12 @@ broom::tidy(lasso_cv) %>%
 ```
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
+
+### The OPTIMAL Model
+
+- The LASSO result does not contain p-values : hard to do inference
+- The estimation is different from OLS result using these selected
+  predictors
 
 ``` r
 lasso_fit = 

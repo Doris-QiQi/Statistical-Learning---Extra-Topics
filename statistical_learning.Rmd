@@ -119,6 +119,7 @@ broom::tidy(lasso_fit) %>%
 ```
 
 
+### CV Curve
 
 ```{r}
 broom::tidy(lasso_cv) %>% 
@@ -128,6 +129,12 @@ broom::tidy(lasso_cv) %>%
 ```
 
 
+### The OPTIMAL Model
+
+  * The LASSO result does not contain p-values : hard to do inference
+  * The estimation is different from OLS result using these selected predictors
+  
+
 ```{r}
 lasso_fit = 
   glmnet(x, y, lambda = lambda_opt)
@@ -135,6 +142,7 @@ lasso_fit =
 lasso_fit %>% broom::tidy()
 
 ```
+
 
 
 ```{r}
