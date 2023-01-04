@@ -96,17 +96,26 @@ cvsd
 ```
 
 
-```{r}
+### Coefficients vs. Lambda
+
+
+  * `complete()` : fill in missing values?
+  * `log(lambda, 10)` : take log transformation 
+  * `geom_path()` show the lines (trajectory) instead of scattered points
+  * `geom_vline(xintercept,color,size)` set color and size for the vertical line at xintercept
+  
+
+```{r,warning=FALSE}
 broom::tidy(lasso_fit) %>% 
-  select(term, lambda, estimate) %>% 
+  select(term, lambda, estimate) %>%  # select intercept and other predictors
   complete(term, lambda, fill = list(estimate = 0) ) %>% 
   filter(term != "(Intercept)") %>% 
   ggplot(aes(x = log(lambda, 10), y = estimate, group = term, color = term)) + 
-  geom_path() + 
-  geom_vline(xintercept = log(lambda_opt, 10), color = "blue", size = 1.2) +
-  theme(legend.position = "none")
+  geom_path(size = .8) + 
+  geom_vline(xintercept = log(lambda_opt, 10), color = "blue", size = 1.2)
 
 ```
+
 
 
 ```{r}
@@ -127,7 +136,6 @@ lasso_fit %>% broom::tidy()
 
 
 ```{r}
-
 
 ```
 
