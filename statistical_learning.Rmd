@@ -59,23 +59,40 @@ by expanding factors to a set of dummy variables (depending on the contrasts) an
 
 ```{r}
 x = model.matrix(bwt ~ ., bwt_df)[,-1]
-x
 
 y = bwt_df$bwt
 
 ```
 
 
+### Grid Search for BEST Lambda
+
+
+  * set lambda as a vector, and fit lasso model for each lambda
+  * use cross validation to find the best lambda
+  * `cv.glmnet(x, y, lambda, weights, nfolds = 10)` 10-fold CV by default
+  * `glmnet(x,y,lambda, alpha = 1)` alpha = 1 by default : LASSO regression
+
 ```{r}
-lambda = 10^(seq(3, -2, -0.1))
+lambda = 10^(seq(3, -2, -0.1))      # a vector of lambdas
 
 lasso_fit =
-  glmnet(x, y, lambda = lambda)
+  glmnet(x, y, lambda = lambda,alpha = 1)     # glmnet() with alpha = 1 : lasso
 
 lasso_cv =
-  cv.glmnet(x, y, lambda = lambda)
+  cv.glmnet(x, y, lambda = lambda)  # cross validate lasso model
 
-lambda_opt = lasso_cv$lambda.min
+lasso_cv
+
+lambda_opt = lasso_cv$lambda.min    # the lambda with the minimum MSE
+lambda_opt
+
+
+cvm <- lasso_cv$cvm
+cvm
+
+cvsd <- lasso_cv$cvsd
+cvsd
 ```
 
 
