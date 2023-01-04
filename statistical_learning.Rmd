@@ -23,8 +23,9 @@ head(df)
 ```
 
 
-
+\ \par
 ### Data Cleaning + Sampling
+
 
   * `as.factor()` : change dbl into fct, change variable type to use `fct_recode()`
   * `fct_recode(column, "new_value" = "old_value")` change factor level 
@@ -50,11 +51,11 @@ bwt_df =
 ```
 
 
-
+\ \par
 ### Create Design Matrix
 
-  * **glmnet** package predates tidyverse. It needs a design matrix (only contains X)
 
+  * **glmnet** package predates tidyverse. It needs a design matrix (only contains X)
 
   * `model.matrix(formula = y ~ x, data = df)` can generate an expanded design matrix
 by expanding factors to a set of dummy variables (depending on the contrasts) and expanding interactions similarly.
@@ -67,6 +68,7 @@ y = bwt_df$bwt
 ```
 
 
+\ \par
 ### Grid Search for BEST Lambda
 
 
@@ -97,6 +99,7 @@ cvsd <- lasso_cv$cvsd
 cvsd
 ```
 
+\ \par
 
 ### Coefficients vs. Lambda
 
@@ -119,6 +122,8 @@ broom::tidy(lasso_fit) %>%
 ```
 
 
+\ \par
+
 ### CV Curve
 
 ```{r}
@@ -128,8 +133,10 @@ broom::tidy(lasso_cv) %>%
 
 ```
 
+\ \par
 
 ### The OPTIMAL Model
+
 
   * The LASSO result does not contain p-values : hard to do inference
   * The estimation is different from OLS result using these selected predictors

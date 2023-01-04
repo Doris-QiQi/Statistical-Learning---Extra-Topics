@@ -36,6 +36,7 @@ head(df)
     ## #   parity <dbl>, pnumlbw <dbl>, pnumsga <dbl>, ppbmi <dbl>, ppwt <dbl>,
     ## #   smoken <dbl>, wtgain <dbl>
 
+ 
 ### Data Cleaning + Sampling
 
 - `as.factor()` : change dbl into fct, change variable type to use
@@ -61,6 +62,7 @@ bwt_df =
   sample_n(200)  # get a sample of size 200
 ```
 
+ 
 ### Create Design Matrix
 
 - **glmnet** package predates tidyverse. It needs a design matrix (only
@@ -76,6 +78,7 @@ x = model.matrix(bwt ~ ., bwt_df)[,-1]
 y = bwt_df$bwt
 ```
 
+ 
 ### Grid Search for BEST Lambda
 
 - set lambda as a vector, and fit lasso model for each lambda
@@ -140,6 +143,7 @@ cvsd
     ## [43]  7040.862  7049.252  7052.711  7058.609  7061.326  7063.148  7064.423
     ## [50]  7065.139  7066.091
 
+ 
 ### Coefficients vs. Lambda
 
 - `complete()` : fill in missing values?
@@ -160,6 +164,7 @@ broom::tidy(lasso_fit) %>%
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-5-1.png)<!-- -->
 
+ 
 ### CV Curve
 
 ``` r
@@ -170,6 +175,7 @@ broom::tidy(lasso_cv) %>%
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
+ 
 ### The OPTIMAL Model
 
 - The LASSO result does not contain p-values : hard to do inference
