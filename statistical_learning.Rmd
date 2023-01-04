@@ -9,6 +9,26 @@ library(glmnet)
 set.seed(8105)
 ```
 
+
+# LASSO
+
+
+### Raw Data
+```{r}
+df <- read_csv("./data/birthweight.csv") 
+
+head(df)
+```
+
+
+
+### Data Cleaning + Sampling
+
+  * `as.factor()` : change dbl into fct, change variable type to use `fct_recode()`
+  * `fct_recode(column, "new_value" = "old_value")` change factor level 
+  * `as.logical()` change 0 or 1 into FALSE or TRUE
+  * `sample_n(sample size)` sample from the cleaned data set
+
 ```{r,message=FALSE}
 bwt_df = 
   read_csv("./data/birthweight.csv") %>% 
@@ -23,14 +43,24 @@ bwt_df =
     mrace = as.factor(mrace),
     mrace = fct_recode(mrace, "white" = "1", "black" = "2", "asian" = "3", 
                        "puerto rican" = "4")) %>% 
-  sample_n(200)
+  sample_n(200)  # get a sample of size 200
 
 ```
 
 
 
+### Create Design Matrix
+
+  * **glmnet** package predates tidyverse. It needs a design matrix (only contains X)
+
+
+  * `model.matrix(formula = y ~ x, data = df)` can generate an expanded design matrix
+by expanding factors to a set of dummy variables (depending on the contrasts) and expanding interactions similarly.
+
 ```{r}
 x = model.matrix(bwt ~ ., bwt_df)[,-1]
+x
+
 y = bwt_df$bwt
 
 ```
