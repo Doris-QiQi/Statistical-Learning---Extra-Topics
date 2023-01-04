@@ -1,6 +1,8 @@
 ---
-title: "statistical_learning"
-otuput: github_document
+title: "Statistical Learning"
+author: "Jingyi Yao"
+date: "`r Sys.Date()`"
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
