@@ -178,13 +178,30 @@ kmeans_fit =
 
 
 ```{r}
+poke_df =
+  broom::augment(kmeans_fit, poke_df)
 
+poke_df %>% 
+  ggplot(aes(x = hp, y = speed, color = .cluster)) +
+  geom_point()
 
 ```
 
 
 ```{r}
+clusts =
+  tibble(k = 2:4) %>%
+  mutate(
+    km_fit =    map(k, ~kmeans(poke_df, .x)),
+    augmented = map(km_fit, ~broom::augment(.x, poke_df))
+  )
 
+clusts %>% 
+  select(-km_fit) %>% 
+  unnest(augmented) %>% 
+  ggplot(aes(hp, speed, color = .cluster)) +
+  geom_point(aes(color = .cluster)) +
+  facet_grid(~k)
 
 ```
 

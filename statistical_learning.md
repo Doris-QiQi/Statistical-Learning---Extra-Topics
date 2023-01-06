@@ -242,3 +242,32 @@ poke_df %>%
 kmeans_fit =
   kmeans(x = poke_df, centers = 3)
 ```
+
+``` r
+poke_df =
+  broom::augment(kmeans_fit, poke_df)
+
+poke_df %>% 
+  ggplot(aes(x = hp, y = speed, color = .cluster)) +
+  geom_point()
+```
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+``` r
+clusts =
+  tibble(k = 2:4) %>%
+  mutate(
+    km_fit =    map(k, ~kmeans(poke_df, .x)),
+    augmented = map(km_fit, ~broom::augment(.x, poke_df))
+  )
+
+clusts %>% 
+  select(-km_fit) %>% 
+  unnest(augmented) %>% 
+  ggplot(aes(hp, speed, color = .cluster)) +
+  geom_point(aes(color = .cluster)) +
+  facet_grid(~k)
+```
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
