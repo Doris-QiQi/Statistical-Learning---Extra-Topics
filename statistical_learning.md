@@ -1,7 +1,7 @@
 Statistical Learning
 ================
 Jingyi Yao
-2023-01-04
+2023-01-05
 
 # LASSO
 
@@ -210,3 +210,35 @@ lasso_fit %>% broom::tidy()
     ## 16 mraceasian            1  -282.         1     0.720
     ## 17 smoken                1    -3.90       1     0.720
     ## 18 wtgain                1     3.04       1     0.720
+
+# Clustering Analysis
+
+``` r
+poke_df = 
+  read_csv("./data/pokemon.csv") %>% 
+  janitor::clean_names() %>% 
+  select(hp, speed)
+```
+
+    ## Rows: 800 Columns: 13
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## chr (3): Name, Type 1, Type 2
+    ## dbl (9): #, Total, HP, Attack, Defense, Sp. Atk, Sp. Def, Speed, Generation
+    ## lgl (1): Legendary
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+poke_df %>% 
+  ggplot(aes(x = hp, y = speed)) + 
+  geom_point()
+```
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+``` r
+kmeans_fit =
+  kmeans(x = poke_df, centers = 3)
+```
