@@ -244,19 +244,29 @@ int_slope_df =
 
 
 ```{r}
-
-
-```
-
-
-```{r}
-
+int_slope_df %>% 
+  ggplot(aes(x = int, y = slope)) + 
+  geom_point()
 
 ```
 
 
 ```{r}
+km_fit = 
+  kmeans(
+    x = int_slope_df %>% select(-subj) %>% scale, 
+    centers = 2)
 
+int_slope_df =
+  broom::augment(km_fit, int_slope_df)
+
+```
+
+
+```{r}
+int_slope_df %>% 
+  ggplot(aes(x = int, y = slope, color = .cluster)) +
+  geom_point()
 
 ```
 

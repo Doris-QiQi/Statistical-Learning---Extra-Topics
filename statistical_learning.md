@@ -313,3 +313,29 @@ int_slope_df =
   ) %>% 
   rename(int = "(Intercept)", slope = week)
 ```
+
+``` r
+int_slope_df %>% 
+  ggplot(aes(x = int, y = slope)) + 
+  geom_point()
+```
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+``` r
+km_fit = 
+  kmeans(
+    x = int_slope_df %>% select(-subj) %>% scale, 
+    centers = 2)
+
+int_slope_df =
+  broom::augment(km_fit, int_slope_df)
+```
+
+``` r
+int_slope_df %>% 
+  ggplot(aes(x = int, y = slope, color = .cluster)) +
+  geom_point()
+```
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
