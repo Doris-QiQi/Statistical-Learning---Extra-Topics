@@ -271,3 +271,45 @@ clusts %>%
 ```
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
+
+# Trajectory Clustering
+
+``` r
+traj_data = 
+  read_csv("./data/trajectories.csv")
+```
+
+    ## Rows: 1600 Columns: 3
+    ## ── Column specification ────────────────────────────────────────────────────────
+    ## Delimiter: ","
+    ## dbl (3): subj, week, value
+    ## 
+    ## ℹ Use `spec()` to retrieve the full column specification for this data.
+    ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+
+``` r
+traj_data %>% 
+  ggplot(aes(x = week, y = value, group = subj)) + 
+  geom_point() + 
+  geom_path()
+```
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+``` r
+int_slope_df = 
+  traj_data %>% 
+  nest(data = week:value) %>% 
+  mutate(
+    models = map(data, ~lm(value ~ week, data = .x)),
+    result = map(models, broom::tidy)
+  ) %>% 
+  select(subj, result) %>% 
+  unnest(result) %>% 
+  select(subj, term, estimate) %>% 
+  pivot_wider(
+    names_from = term,
+    values_from = estimate
+  ) %>% 
+  rename(int = "(Intercept)", slope = week)
+```

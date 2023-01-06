@@ -206,20 +206,39 @@ clusts %>%
 ```
 
 
+# Trajectory Clustering
 ```{r}
-
+traj_data = 
+  read_csv("./data/trajectories.csv")
 
 ```
 
 
 ```{r}
-
+traj_data %>% 
+  ggplot(aes(x = week, y = value, group = subj)) + 
+  geom_point() + 
+  geom_path()
 
 ```
 
 
 ```{r}
-
+int_slope_df = 
+  traj_data %>% 
+  nest(data = week:value) %>% 
+  mutate(
+    models = map(data, ~lm(value ~ week, data = .x)),
+    result = map(models, broom::tidy)
+  ) %>% 
+  select(subj, result) %>% 
+  unnest(result) %>% 
+  select(subj, term, estimate) %>% 
+  pivot_wider(
+    names_from = term,
+    values_from = estimate
+  ) %>% 
+  rename(int = "(Intercept)", slope = week)
 
 ```
 
