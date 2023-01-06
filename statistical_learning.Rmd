@@ -272,7 +272,10 @@ int_slope_df %>%
 
 
 ```{r}
-
+left_join(traj_data, int_slope_df) %>% 
+  ggplot(aes(x = week, y = value, group = subj, color = .cluster)) + 
+  geom_point() + 
+  geom_path() 
 
 ```
 

@@ -1,7 +1,7 @@
 Statistical Learning
 ================
 Jingyi Yao
-2023-01-05
+2023-01-06
 
 # LASSO
 
@@ -339,3 +339,14 @@ int_slope_df %>%
 ```
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+``` r
+left_join(traj_data, int_slope_df) %>% 
+  ggplot(aes(x = week, y = value, group = subj, color = .cluster)) + 
+  geom_point() + 
+  geom_path() 
+```
+
+    ## Joining, by = "subj"
+
+![](statistical_learning_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
