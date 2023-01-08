@@ -153,7 +153,8 @@ lasso_fit %>% broom::tidy()
 
 
 
-# Clustering Analysis
+# Clustering Analysis : Pokemon
+
 ```{r}
 poke_df = 
   read_csv("./data/pokemon.csv") %>% 
@@ -169,7 +170,7 @@ poke_df %>%
 
 ```
 
-
+### kmeans
 ```{r}
 kmeans_fit =
   kmeans(x = poke_df, centers = 3)

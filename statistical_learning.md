@@ -1,7 +1,7 @@
 Statistical Learning
 ================
 Jingyi Yao
-2023-01-06
+2023-01-07
 
 # LASSO
 
@@ -211,7 +211,7 @@ lasso_fit %>% broom::tidy()
     ## 17 smoken                1    -3.90       1     0.720
     ## 18 wtgain                1     3.04       1     0.720
 
-# Clustering Analysis
+# Clustering Analysis : Pokemon
 
 ``` r
 poke_df = 
@@ -237,6 +237,8 @@ poke_df %>%
 ```
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
+
+### kmeans
 
 ``` r
 kmeans_fit =
