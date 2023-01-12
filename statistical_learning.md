@@ -213,8 +213,10 @@ lasso_fit %>% broom::tidy()
 
 # Clustering Analysis : Pokemon
 
-The Pokemon data set contains many variables to describe a Pokemon. But
-we only choose hp and speed here to apply different clustering methods.
+The Pokemon data set contains many variables to describe a Pokemon.
+
+But we only choose hp and speed here to apply different clustering
+methods.
 
 ``` r
 poke_df = 
@@ -303,6 +305,7 @@ kmeans_fit
   (add a column)
 - `broom::augment(kmeans result, df)` add the kmeans result output to
   the df
+- visualize the clustering result using `ggplot(x,y,color = .cluster)`
 
 ``` r
 poke_df =
@@ -333,6 +336,14 @@ poke_df %>%
 ```
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+
+### Choices of Clusters : tuning parameter `centers`
+
+- k = 2,3,4
+- `map(.x = k, ~ kmeans(df,centers = .x)` using map() to try different
+  centers
+- `map()` result is a listcol so we need to `unnest`
+- `facet_grid(~k)` arrange the plots in k columns
 
 ``` r
 clusts =
