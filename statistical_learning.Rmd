@@ -155,6 +155,8 @@ lasso_fit %>% broom::tidy()
 
 # Clustering Analysis : Pokemon
 
+
+The Pokemon data set contains many variables to describe a Pokemon. But we only choose hp and speed here to apply different clustering methods.
 ```{r}
 poke_df = 
   read_csv("./data/pokemon.csv") %>% 
@@ -163,6 +165,8 @@ poke_df =
 ```
 
 
+\ \par
+A scatter plot showing the relationship between hp and speed.
 ```{r}
 poke_df %>% 
   ggplot(aes(x = hp, y = speed)) + 
@@ -170,17 +174,29 @@ poke_df %>%
 
 ```
 
+
+
 ### kmeans
+
+  * **kmeans** is a function in **stats** package
+  * the raw output of kmeans is a bit messy. It shows the clustering result(number) of each object in the poke_df.
+  
 ```{r}
 kmeans_fit =
   kmeans(x = poke_df, centers = 3)
 
+kmeans_fit
 ```
 
+\ \par
 
+  * using `broom::augment` to add the clustering result to the poke_df (add a column)
+  * `broom::augment(kmeans result, df)` add the kmeans result output to the df
 ```{r}
 poke_df =
   broom::augment(kmeans_fit, poke_df)
+
+poke_df
 
 poke_df %>% 
   ggplot(aes(x = hp, y = speed, color = .cluster)) +

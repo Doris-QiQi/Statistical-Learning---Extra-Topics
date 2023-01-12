@@ -1,7 +1,7 @@
 Statistical Learning
 ================
 Jingyi Yao
-2023-01-07
+2023-01-11
 
 # LASSO
 
@@ -213,6 +213,9 @@ lasso_fit %>% broom::tidy()
 
 # Clustering Analysis : Pokemon
 
+The Pokemon data set contains many variables to describe a Pokemon. But
+we only choose hp and speed here to apply different clustering methods.
+
 ``` r
 poke_df = 
   read_csv("./data/pokemon.csv") %>% 
@@ -230,6 +233,9 @@ poke_df =
     ## ℹ Use `spec()` to retrieve the full column specification for this data.
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
+ 
+A scatter plot showing the relationship between hp and speed.
+
 ``` r
 poke_df %>% 
   ggplot(aes(x = hp, y = speed)) + 
@@ -240,15 +246,87 @@ poke_df %>%
 
 ### kmeans
 
+- **kmeans** is a function in **stats** package
+- the raw output of kmeans is a bit messy. It shows the clustering
+  result(number) of each object in the poke_df.
+
 ``` r
 kmeans_fit =
   kmeans(x = poke_df, centers = 3)
+
+kmeans_fit
 ```
+
+    ## K-means clustering with 3 clusters of sizes 378, 114, 308
+    ## 
+    ## Cluster means:
+    ##          hp    speed
+    ## 1  53.77249 48.28836
+    ## 2 108.73684 55.24561
+    ## 3  73.65260 97.63312
+    ## 
+    ## Clustering vector:
+    ##   [1] 1 1 3 3 1 3 3 3 3 1 1 3 3 1 1 1 1 1 3 3 1 1 3 3 1 3 1 3 1 3 3 3 1 1 1 1 3
+    ##  [38] 1 1 3 1 2 1 3 2 2 1 3 1 1 1 1 1 1 3 3 3 3 3 1 3 1 3 1 3 3 3 2 3 3 3 3 1 1
+    ##  [75] 2 1 1 3 1 3 1 1 1 3 3 2 2 2 1 1 1 1 3 1 2 1 2 1 1 1 3 3 3 1 1 2 1 1 3 3 1
+    ## [112] 2 1 1 3 1 2 1 1 1 2 2 1 3 3 1 3 1 3 1 3 3 3 3 3 3 3 3 3 1 3 3 2 1 1 2 3 1
+    ## [149] 1 1 1 1 3 3 3 2 3 3 3 1 1 3 3 3 3 3 1 1 3 1 3 3 1 1 3 1 3 1 2 1 3 1 1 3 1
+    ## [186] 2 1 1 2 1 1 1 3 1 1 2 2 1 1 2 1 2 1 3 3 3 1 1 3 1 2 3 2 3 2 3 1 2 3 1 1 2
+    ## [223] 3 1 1 1 2 3 1 3 1 3 3 3 1 2 1 1 1 2 1 1 1 1 1 1 1 3 3 3 2 2 2 3 1 1 1 1 3
+    ## [260] 3 3 2 3 3 3 1 1 2 2 3 3 3 1 3 3 3 1 1 3 3 1 1 2 2 1 1 1 3 1 1 1 1 1 1 1 3
+    ## [297] 1 1 3 3 3 3 1 1 1 3 3 1 1 1 1 1 3 2 1 3 1 1 2 2 1 2 1 1 1 1 1 1 1 1 1 1 1
+    ## [334] 1 1 3 3 1 3 3 3 3 3 3 1 1 2 1 3 3 2 2 1 1 1 1 1 3 1 1 1 3 1 1 1 3 3 3 1 1
+    ## [371] 1 1 2 1 1 1 3 1 2 1 1 1 3 1 1 1 1 3 1 1 2 1 3 3 2 1 3 3 1 2 2 1 1 1 2 3 1
+    ## [408] 1 3 3 1 1 3 3 1 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 3 1 1 2 1 3 3 1 1 2 1 3 3
+    ## [445] 1 3 1 1 1 1 3 1 3 1 2 1 1 1 1 1 1 1 1 1 3 3 3 1 3 1 2 3 2 2 3 3 3 3 2 3 3
+    ## [482] 1 3 2 1 1 1 1 2 3 1 1 3 3 3 2 1 3 3 1 2 1 3 1 3 1 1 3 1 1 2 2 3 1 2 2 2 3
+    ## [519] 3 3 3 3 1 3 2 3 3 3 1 1 3 3 3 3 3 3 3 3 3 3 3 3 3 3 2 2 2 3 3 3 3 3 3 3 1
+    ## [556] 3 3 1 2 2 1 1 2 1 3 1 1 3 1 3 1 3 1 3 1 3 1 2 1 1 3 1 3 1 1 2 1 3 1 2 2 2
+    ## [593] 1 2 2 1 3 2 2 3 1 1 3 1 1 3 1 3 1 3 3 1 1 3 1 3 2 1 1 1 1 1 3 1 1 1 1 1 3
+    ## [630] 1 3 1 3 1 3 1 1 1 1 1 2 1 3 1 1 3 3 3 3 1 1 1 2 1 2 2 1 3 1 1 1 1 3 1 1 2
+    ## [667] 1 1 1 1 3 1 1 3 1 2 3 1 3 2 1 3 1 1 2 1 1 2 1 2 1 2 2 3 1 1 3 1 3 3 3 3 3
+    ## [704] 3 3 3 3 3 3 3 2 2 2 3 3 3 3 3 1 1 2 1 1 3 1 3 3 1 3 1 3 3 1 1 3 1 3 1 1 3
+    ## [741] 1 2 1 2 3 1 3 3 1 1 1 1 1 2 1 3 1 3 1 1 1 1 1 1 1 3 1 3 1 2 2 3 3 1 1 1 3
+    ## [778] 1 1 2 1 1 1 1 3 3 3 2 1 2 1 3 2 2 3 1 3 3 3 3
+    ## 
+    ## Within cluster sum of squares by cluster:
+    ## [1] 170302.0 131877.2 183461.4
+    ##  (between_SS / total_SS =  59.4 %)
+    ## 
+    ## Available components:
+    ## 
+    ## [1] "cluster"      "centers"      "totss"        "withinss"     "tot.withinss"
+    ## [6] "betweenss"    "size"         "iter"         "ifault"
+
+ 
+- using `broom::augment` to add the clustering result to the poke_df
+  (add a column)
+- `broom::augment(kmeans result, df)` add the kmeans result output to
+  the df
 
 ``` r
 poke_df =
   broom::augment(kmeans_fit, poke_df)
 
+poke_df
+```
+
+    ## # A tibble: 800 × 3
+    ##       hp speed .cluster
+    ##    <dbl> <dbl> <fct>   
+    ##  1    45    45 1       
+    ##  2    60    60 1       
+    ##  3    80    80 3       
+    ##  4    80    80 3       
+    ##  5    39    65 1       
+    ##  6    58    80 3       
+    ##  7    78   100 3       
+    ##  8    78   100 3       
+    ##  9    78   100 3       
+    ## 10    44    43 1       
+    ## # … with 790 more rows
+
+``` r
 poke_df %>% 
   ggplot(aes(x = hp, y = speed, color = .cluster)) +
   geom_point()
