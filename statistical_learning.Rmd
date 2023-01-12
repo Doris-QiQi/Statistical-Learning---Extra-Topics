@@ -178,7 +178,7 @@ poke_df %>%
 
 
 
-### kmeans
+### K-Means
 
   * **kmeans** is a function in **stats** package
   * the raw output of kmeans is a bit messy. It shows the clustering result(number) of each object in the poke_df.
@@ -235,14 +235,23 @@ clusts %>%
 ```
 
 
+
 # Trajectory Clustering
+
+### Logitudinal Data
+  
 ```{r}
 traj_data = 
   read_csv("./data/trajectories.csv")
 
+head(traj_data,20)
+
 ```
 
 
+### Path for the logitudinal data 
+
+Plot each subject's value by week
 ```{r}
 traj_data %>% 
   ggplot(aes(x = week, y = value, group = subj)) + 
@@ -252,6 +261,12 @@ traj_data %>%
 ```
 
 
+### Clustering based on SLR result
+
+  * for each subject, estimate a **simple linear regression**
+  * extract the **intercept** and **slope**
+  * cluster using the intercept and slope
+  
 ```{r}
 int_slope_df = 
   traj_data %>% 
@@ -307,29 +322,4 @@ left_join(traj_data, int_slope_df) %>%
   geom_path() 
 
 ```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
-
-```{r}
-
-
-```
-
 

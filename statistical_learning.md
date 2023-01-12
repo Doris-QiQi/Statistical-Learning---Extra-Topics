@@ -246,7 +246,7 @@ poke_df %>%
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-9-1.png)<!-- -->
 
-### kmeans
+### K-Means
 
 - **kmeans** is a function in **stats** package
 - the raw output of kmeans is a bit messy. It shows the clustering
@@ -365,6 +365,8 @@ clusts %>%
 
 # Trajectory Clustering
 
+### Logitudinal Data
+
 ``` r
 traj_data = 
   read_csv("./data/trajectories.csv")
@@ -379,6 +381,38 @@ traj_data =
     ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
 
 ``` r
+head(traj_data,20)
+```
+
+    ## # A tibble: 20 × 3
+    ##     subj  week value
+    ##    <dbl> <dbl> <dbl>
+    ##  1     1     1  2.99
+    ##  2     1     2  1.81
+    ##  3     1     3  1.17
+    ##  4     1     4 -0.77
+    ##  5     1     5  1.36
+    ##  6     1     6  2.73
+    ##  7     1     7  0.76
+    ##  8     1     8  0.67
+    ##  9     2     1  0.11
+    ## 10     2     2  2.69
+    ## 11     2     3  3.97
+    ## 12     2     4  4.69
+    ## 13     2     5  4.69
+    ## 14     2     6  3.88
+    ## 15     2     7  4.63
+    ## 16     2     8  8.04
+    ## 17     3     1 -0.81
+    ## 18     3     2  0.42
+    ## 19     3     3  0.43
+    ## 20     3     4 -0.26
+
+### Path for the logitudinal data
+
+Plot each subject’s value by week
+
+``` r
 traj_data %>% 
   ggplot(aes(x = week, y = value, group = subj)) + 
   geom_point() + 
@@ -386,6 +420,12 @@ traj_data %>%
 ```
 
 ![](statistical_learning_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+### Clustering based on SLR result
+
+- for each subject, estimate a **simple linear regression**
+- extract the **intercept** and **slope**
+- cluster using the intercept and slope
 
 ``` r
 int_slope_df = 
